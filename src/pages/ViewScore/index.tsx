@@ -1,10 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 const ViewScore = () => {
   return (
-    <Box>
-      <h1>查看成绩</h1>
-    </Box>
+    <Container sx={{ pt: 6 }}>
+      <h1>查看学生成绩</h1>
+    </Container>
   );
 };
 export default ViewScore;

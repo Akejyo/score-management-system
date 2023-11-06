@@ -1,11 +1,11 @@
 import VerticalLinearStepper from "@/components/Stepper";
-import { Alert, Box, Container } from "@mui/material";
+import { Alert, Container } from "@mui/material";
 
 const Home = () => {
   return (
     <Container sx={{ pt: 6 }}>
-      <h1>首页</h1>
-      <Alert severity="info">按下面步骤开始操作</Alert>
+      <h1>学生成绩管理系统</h1>
+      <Alert severity="info">请按下面步骤开始操作</Alert>
       <VerticalLinearStepper />
     </Container>
   );
