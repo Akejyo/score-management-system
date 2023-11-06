@@ -1,6 +1,7 @@
 import { Menu } from "@mui/icons-material";
 import { AppBar, IconButton, Stack, Typography } from "@mui/material";
 import { useAppState } from "@/states";
+import Link from "../Link";
 
 const TopBar = () => {
   const { state, dispatch } = useAppState();
@@ -22,14 +23,16 @@ const TopBar = () => {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mx: 2 }}
+            sx={{ mx: 2, pt: 1, pb: 1 }}
             onClick={changeMenu}
           >
             <Menu />
           </IconButton>
         </Stack>
         <Stack direction="row" justifyContent="center" className="basis-1/2">
-          <Typography>成绩管理系统</Typography>
+          <Link to="/">
+            <Typography color={"white"}>成绩管理系统</Typography>
+          </Link>
         </Stack>
       </Stack>
     </AppBar>

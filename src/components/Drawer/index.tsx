@@ -16,7 +16,10 @@ const LeftDrawer = () => {
           keepMounted: matchesMobile,
         }}
         sx={{
-          "& .MuiDrawer-paper": { boxSizing: "border-box" },
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            backgroundColor: "#eff2fc",
+          },
         }}
       >
         <NavLinks />

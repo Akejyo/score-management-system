@@ -12,7 +12,7 @@ const initialState = {
     uid: 1,
     name: "",
   },
-  selectedPost: "",
+  selectedExam: "",
 };
 
 export const AppContext = createContext<{

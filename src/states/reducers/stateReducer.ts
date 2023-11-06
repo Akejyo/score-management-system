@@ -1,5 +1,5 @@
 export type State = {
-  selectedPost: string;
+  selectedExam: string;
   messages: { unread_count: number };
   drawer: boolean;
   users: { uid: number; name: string };
@@ -31,20 +31,10 @@ export const stateReducer = (state: State, action: StateAction) => {
         messages: { unread_count: action.payload },
       };
     }
-    // case 'read messages': {
-    //   const messages = [
-    //     ...action.payload.messages,
-    //     // ...state.rooms[action.payload.id].messages,
-    //   ]
-    //   return {
-    //     ...state,
-    //     messages: { unread_count: 0 },
-    //   }
-    // }
     case "set drawer":
       return { ...state, drawer: !state.drawer };
-    case "set post":
-      return { ...state, selectedPost: action.payload };
+    case "set exam":
+      return { ...state, selectedExam: action.payload };
     default:
       return state;
   }
