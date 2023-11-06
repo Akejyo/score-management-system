@@ -4,12 +4,21 @@ import { useAppState } from "@/states";
 
 const LeftDrawer = () => {
   const { state } = useAppState();
-
+  //适配手机端
   const matchesMobile = useMediaQuery("(max-width:640px)");
 
   return (
     <>
-      <Drawer open={state.drawer}>
+      <Drawer
+        variant={matchesMobile ? "temporary" : "persistent"}
+        open={state.drawer}
+        ModalProps={{
+          keepMounted: matchesMobile,
+        }}
+        sx={{
+          "& .MuiDrawer-paper": { boxSizing: "border-box" },
+        }}
+      >
         <NavLinks />
       </Drawer>
     </>
