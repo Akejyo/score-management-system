@@ -9,4 +9,14 @@ export default defineConfig({
       "@": "/src",
     },
   },
+  server: {
+    port: 5173,
+    proxy: {
+      "/user": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/user/, ""),
+      },
+    },
+  },
 });
