@@ -1,70 +1,44 @@
-import React, { useState } from "react";
-
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
   Box,
-  Collapse,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Skeleton,
   Toolbar,
   Typography,
 } from "@mui/material";
-
-const Ordinate = () => {
-  const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
-  return (
-    <>
-      <ListItemButton onClick={handleClick}>
-        <ListItemIcon>{/* <InboxIcon /> */}</ListItemIcon>
-        <ListItemText>
-          <Typography color="inherit" className="font-bold">
-            tmp
-          </Typography>
-        </ListItemText>
-        {open ? (
-          <ExpandLess fontSize="inherit" />
-        ) : (
-          <ExpandMore fontSize="inherit" />
-        )}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>{/* <StarBorder /> */}</ListItemIcon>
-            <ListItemText>
-              <Typography color="inherit" className="font-bold">
-                tmp
-              </Typography>
-            </ListItemText>
-          </ListItemButton>
-        </List>
-      </Collapse>
-    </>
-  );
-};
+import Link from "@/components/Link";
+import {
+  StarBorder,
+  AddCircleOutline,
+  Edit,
+  ManageSearch,
+} from "@mui/icons-material";
+const navLinks = [
+  { path: "/add", text: "添加学生成绩", icon: <AddCircleOutline /> },
+  { path: "/modify", text: "修改学生成绩", icon: <Edit /> },
+  { path: "/check", text: "受理查分", icon: <ManageSearch /> },
+];
 
 const Sections = () => {
   return (
     <>
       <List>
-        <ListItem>
-          <Skeleton className="w-full" height={32}></Skeleton>
-        </ListItem>
-        <ListItem>
-          <Skeleton className="w-full" height={32}></Skeleton>
-        </ListItem>
-        <ListItem>
-          <Skeleton className="w-full" height={32}></Skeleton>
-        </ListItem>
+        {navLinks.map((link) => (
+          <ListItem key={link.path}>
+            <Link to={link.path} underline="none" color="inherit">
+              <ListItemButton>
+                <ListItemIcon>{link.icon}</ListItemIcon>
+                <ListItemText>
+                  <Typography color="inherit" className="font-bold">
+                    {link.text}
+                  </Typography>
+                </ListItemText>
+              </ListItemButton>
+            </Link>
+          </ListItem>
+        ))}
       </List>
     </>
   );
