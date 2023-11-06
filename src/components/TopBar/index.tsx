@@ -22,14 +22,14 @@ const TopBar = () => {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mx: 2 }}
             onClick={changeMenu}
           >
             <Menu />
           </IconButton>
         </Stack>
         <Stack direction="row" justifyContent="center" className="basis-1/2">
-          <Typography>test</Typography>
+          <Typography>成绩管理系统</Typography>
         </Stack>
       </Stack>
     </AppBar>
