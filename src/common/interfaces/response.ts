@@ -29,3 +29,11 @@ export type RegisterInfo = {
   user_id: number;
   password: string;
 };
+
+export type accountInfo = {
+  username: string;
+  student_name: string;
+  student_number: number;
+  password: string;
+  admin: number;
+};
