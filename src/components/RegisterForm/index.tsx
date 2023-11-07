@@ -115,7 +115,7 @@ const RegisterForm = () => {
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          错误1
+          该用户名已被使用！
         </Alert>
       </Snackbar>
       <Snackbar
@@ -125,7 +125,7 @@ const RegisterForm = () => {
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          错误2
+          该学号已被注册！
         </Alert>
       </Snackbar>
 

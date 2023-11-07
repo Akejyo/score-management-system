@@ -15,7 +15,6 @@ export default defineConfig({
       "/user": {
         target: "http://localhost:8080",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/user/, ""),
       },
     },
   },
