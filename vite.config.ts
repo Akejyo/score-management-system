@@ -15,6 +15,7 @@ export default defineConfig({
       "/dev": {
         target: "http://localhost:8080",
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/dev/, ""), // 重写路径把路径变成空字符,
       },
     },
   },
