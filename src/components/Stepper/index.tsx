@@ -14,8 +14,10 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppState } from "@/states";
+import { getAllExam } from "@/apis/common";
+import { useQuery } from "react-query";
 
 const steps = [
   {
@@ -31,6 +33,7 @@ const steps = [
 
 export default function VerticalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [allExamInfo, setAllExamInfo] = useState([]);
   const { state, dispatch } = useAppState();
 
   const handleNext = () => {
@@ -52,6 +55,12 @@ export default function VerticalLinearStepper() {
     setSelectedValue(event.target.value);
   };
 
+  const { data, refetch } = useQuery(["getAllExam"], () => getAllExam(), {
+    onSuccess: (data: any) => {
+      setAllExamInfo(data.all_exam);
+    },
+  });
+
   const [selectedValue, setSelectedValue] = useState("a");
   return (
     <Box sx={{ maxWidth: 400 }}>
@@ -69,10 +78,11 @@ export default function VerticalLinearStepper() {
                     label="examId"
                     onChange={handleChange}
                   >
-                    {/* TODO: 这里最后要从数据库里读取，用map显示出来 */}
-                    <MenuItem value={"1"}>第一次考试</MenuItem>
-                    <MenuItem value={"2"}>第二次考试</MenuItem>
-                    <MenuItem value={"3"}>第三次考试</MenuItem>
+                    {allExamInfo.map((exam: any) => (
+                      <MenuItem key={exam.exam_id} value={exam.exam_id}>
+                        {exam.exam_name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               )}

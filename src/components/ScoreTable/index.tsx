@@ -17,22 +17,10 @@ import {
   Switch,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-
-interface Data {
-  id: number;
-  name: string;
-  language: number;
-  math: number;
-  english: number;
-  physics: number;
-  chemistry: number;
-  biont: number;
-  all: number;
-}
+import { StudentScore } from "@/common/interfaces/response";
 
 function createData(
-  id: number,
-  name: string,
+  student_name: string,
   language: number,
   math: number,
   english: number,
@@ -40,10 +28,9 @@ function createData(
   chemistry: number,
   biont: number,
   all: number
-): Data {
+): StudentScore {
   return {
-    id,
-    name,
+    student_name,
     language,
     math,
     english,
@@ -55,14 +42,14 @@ function createData(
 }
 
 const rows = [
-  createData(1, "张一一", 305, 3.7, 67, 4.3, 1, 9, 10),
-  createData(2, "张二二", 452, 25.0, 51, 4.9, 2, 8, 11),
-  createData(3, "张三", 262, 16.0, 24, 6.0, 3, 7, 12),
-  createData(4, "张四四", 159, 6.0, 24, 4.0, 4, 6, 123),
-  createData(5, "张五五", 356, 16.0, 49, 3.9, 5, 5, 1),
-  createData(6, "张六", 408, 3.2, 87, 6.5, 6, 4, 123),
-  createData(7, "张七七", 237, 9.0, 37, 4.3, 7, 3, 33),
-  createData(8, "张八八", 375, 0.0, 94, 0.0, 8, 2, 1212),
+  createData("张一一", 305, 3.7, 67, 4.3, 1, 9, 10),
+  createData("张二二", 452, 25.0, 51, 4.9, 2, 8, 11),
+  createData("张三", 262, 16.0, 24, 6.0, 3, 7, 12),
+  createData("张四四", 159, 6.0, 24, 4.0, 4, 6, 123),
+  createData("张五五", 356, 16.0, 49, 3.9, 5, 5, 1),
+  createData("张六", 408, 3.2, 87, 6.5, 6, 4, 123),
+  createData("张七七", 237, 9.0, 37, 4.3, 7, 3, 33),
+  createData("张八八", 375, 0.0, 94, 0.0, 8, 2, 1212),
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -89,10 +76,6 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort<T>(
   array: readonly T[],
   comparator: (a: T, b: T) => number
@@ -110,14 +93,14 @@ function stableSort<T>(
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof Data;
+  id: keyof StudentScore;
   label: string;
   numeric: boolean;
 }
 
 const headCells: readonly HeadCell[] = [
   {
-    id: "name",
+    id: "student_name",
     numeric: false,
     disablePadding: true,
     label: "姓名",
@@ -170,7 +153,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof StudentScore
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -188,7 +171,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     onRequestSort,
   } = props;
   const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof StudentScore) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -256,7 +239,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 }
 export default function ScoreTable() {
   const [order, setOrder] = React.useState<Order>("desc");
-  const [orderBy, setOrderBy] = React.useState<keyof Data>("all");
+  const [orderBy, setOrderBy] = React.useState<keyof StudentScore>("all");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -264,20 +247,11 @@ export default function ScoreTable() {
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof StudentScore
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
@@ -343,24 +317,20 @@ export default function ScoreTable() {
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+              onSelectAllClick={function (
+                event: React.ChangeEvent<HTMLInputElement>
+              ): void {
+                throw new Error("Function not implemented.");
+              }}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
-                  <TableRow
-                    hover
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}
-                  >
+                  <TableRow hover tabIndex={-1} sx={{ cursor: "pointer" }}>
                     <TableCell padding="checkbox"></TableCell>
                     <TableCell
                       component="th"
@@ -368,7 +338,7 @@ export default function ScoreTable() {
                       scope="row"
                       padding="none"
                     >
-                      {row.name}
+                      {row.student_name}
                     </TableCell>
                     <TableCell align="right">{row.all}</TableCell>
                     <TableCell align="right">{row.language}</TableCell>

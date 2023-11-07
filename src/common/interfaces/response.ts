@@ -3,20 +3,19 @@ export type StudentInfo = {
   student_name: string;
 };
 
-export type Score = {
-  subject_id: number;
-  score: number;
-};
-
 export type StudentScore = {
-  student_id: number;
-  scores: Score[];
+  student_name: string;
+  language: number;
+  math: number;
+  english: number;
+  physics: number;
+  chemistry: number;
+  biont: number;
+  all: number;
 };
 
-export type Exam = {
-  exam_id: number;
-  exam_name: string;
-  students: StudentScore[];
+export type allScore = {
+  scores: StudentScore[];
 };
 
 export type LoginInfo = {
@@ -36,4 +35,14 @@ export type accountInfo = {
   student_number: number;
   password: string;
   admin: number;
+};
+
+export type examInfo = {
+  exam_name: string;
+  exam_id: number;
+};
+
+export type Exam = {
+  examInfo: examInfo;
+  students: StudentScore[];
 };
