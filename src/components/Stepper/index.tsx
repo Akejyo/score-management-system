@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { useAppState } from "@/states";
 import { getAllExam } from "@/apis/common";
 import { useQuery } from "react-query";
+import { examInfo } from "@/common/interfaces/response";
 
 const steps = [
   {
@@ -33,7 +34,9 @@ const steps = [
 
 export default function VerticalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
-  const [allExamInfo, setAllExamInfo] = useState([]);
+  const [examName, setExamName] = useState(""); //exam_name
+  const [examId, setExamId] = useState(0); //exam_id
+  const [allExamInfo, setAllExamInfo] = useState<examInfo[]>([]);
   const { state, dispatch } = useAppState();
 
   const handleNext = () => {
@@ -46,13 +49,27 @@ export default function VerticalLinearStepper() {
     setActiveStep(0);
   };
 
-  //记录选择到appstate里
-  const handleChange = (event: SelectChangeEvent) => {
+  useEffect(() => {
     dispatch({
       type: "set exam",
-      payload: event.target.value,
+      payload: examName,
     });
-    setSelectedValue(event.target.value);
+    dispatch({
+      type: "set exam id",
+      payload: examId,
+    });
+  }, [examName, examId]);
+
+  const handleChange = (event: SelectChangeEvent) => {
+    const selectedExamName = event.target.value as string;
+    const selectedExam = allExamInfo.find(
+      (exam) => exam.exam_name === selectedExamName
+    );
+
+    if (selectedExam) {
+      setExamName(selectedExam.exam_name);
+      setExamId(selectedExam.exam_id);
+    }
   };
 
   const { data, refetch } = useQuery(["getAllExam"], () => getAllExam(), {
@@ -61,7 +78,6 @@ export default function VerticalLinearStepper() {
     },
   });
 
-  const [selectedValue, setSelectedValue] = useState("a");
   return (
     <Box sx={{ maxWidth: 400 }}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -79,7 +95,7 @@ export default function VerticalLinearStepper() {
                     onChange={handleChange}
                   >
                     {allExamInfo.map((exam: any) => (
-                      <MenuItem key={exam.exam_id} value={exam.exam_id}>
+                      <MenuItem key={exam.exam_id} value={exam.exam_name}>
                         {exam.exam_name}
                       </MenuItem>
                     ))}

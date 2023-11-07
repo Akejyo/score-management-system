@@ -13,6 +13,7 @@ const initialState = {
     name: "",
   },
   selectedExam: "",
+  selectedExamId: 0,
 };
 
 export const AppContext = createContext<{

@@ -10,7 +10,7 @@ export type StudentScore = {
   english: number;
   physics: number;
   chemistry: number;
-  biont: number;
+  biology: number;
   all: number;
 };
 

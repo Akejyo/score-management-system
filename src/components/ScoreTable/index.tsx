@@ -18,6 +18,10 @@ import {
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { StudentScore } from "@/common/interfaces/response";
+import { useEffect, useState } from "react";
+import { useAppState } from "@/states";
+import { useQuery } from "react-query";
+import { getAllScore } from "@/apis/common";
 
 function createData(
   student_name: string,
@@ -26,7 +30,7 @@ function createData(
   english: number,
   physics: number,
   chemistry: number,
-  biont: number,
+  biology: number,
   all: number
 ): StudentScore {
   return {
@@ -36,21 +40,10 @@ function createData(
     english,
     physics,
     chemistry,
-    biont,
+    biology,
     all,
   };
 }
-
-const rows = [
-  createData("张一一", 305, 3.7, 67, 4.3, 1, 9, 10),
-  createData("张二二", 452, 25.0, 51, 4.9, 2, 8, 11),
-  createData("张三", 262, 16.0, 24, 6.0, 3, 7, 12),
-  createData("张四四", 159, 6.0, 24, 4.0, 4, 6, 123),
-  createData("张五五", 356, 16.0, 49, 3.9, 5, 5, 1),
-  createData("张六", 408, 3.2, 87, 6.5, 6, 4, 123),
-  createData("张七七", 237, 9.0, 37, 4.3, 7, 3, 33),
-  createData("张八八", 375, 0.0, 94, 0.0, 8, 2, 1212),
-];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -142,7 +135,7 @@ const headCells: readonly HeadCell[] = [
     label: "化学",
   },
   {
-    id: "biont",
+    id: "biology",
     numeric: true,
     disablePadding: false,
     label: "生物",
@@ -238,13 +231,39 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 export default function ScoreTable() {
-  const [order, setOrder] = React.useState<Order>("desc");
-  const [orderBy, setOrderBy] = React.useState<keyof StudentScore>("all");
-  const [selected, setSelected] = React.useState<readonly number[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [order, setOrder] = useState<Order>("desc");
+  const [orderBy, setOrderBy] = useState<keyof StudentScore>("all");
+  const [selected, setSelected] = useState<readonly number[]>([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const { state, dispatch } = useAppState();
+  const [rows, setRows] = useState([createData("", 0, 0, 0, 0, 0, 0, 0)]);
+  const { data, refetch } = useQuery(
+    //从state中获取exam_id，请求获得所有学生成绩
+    ["getScore"],
+    () => getAllScore([state.selectedExamId]),
+    {
+      onSuccess: (data: any) => {
+        const newRows = data.allScore.map((srow: StudentScore) =>
+          createData(
+            srow.student_name,
+            srow.all,
+            srow.language,
+            srow.math,
+            srow.english,
+            srow.physics,
+            srow.chemistry,
+            srow.biology
+          )
+        );
+        setRows([...newRows]);
+      },
+    }
+  );
+  useEffect(() => {
+    console.log(rows);
+  }, [rows]);
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof StudentScore
@@ -252,25 +271,6 @@ export default function ScoreTable() {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected: readonly number[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -288,8 +288,6 @@ export default function ScoreTable() {
     setDense(event.target.checked);
   };
 
-  const isSelected = (id: number) => selected.indexOf(id) !== -1;
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -300,7 +298,7 @@ export default function ScoreTable() {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rows, rowsPerPage]
   );
 
   return (
@@ -328,7 +326,6 @@ export default function ScoreTable() {
             <TableBody>
               {visibleRows.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`;
-
                 return (
                   <TableRow hover tabIndex={-1} sx={{ cursor: "pointer" }}>
                     <TableCell padding="checkbox"></TableCell>
@@ -346,7 +343,7 @@ export default function ScoreTable() {
                     <TableCell align="right">{row.english}</TableCell>
                     <TableCell align="right">{row.physics}</TableCell>
                     <TableCell align="right">{row.chemistry}</TableCell>
-                    <TableCell align="right">{row.biont}</TableCell>
+                    <TableCell align="right">{row.biology}</TableCell>
                   </TableRow>
                 );
               })}
