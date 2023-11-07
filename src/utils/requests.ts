@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const baseUrl = (import.meta.env.PROD ? "" : "/dev") + "/";
-const baseUrl = "/";
+const baseUrl = "";
 
 const statusCode = {
   tokenExpire: 401,

@@ -18,10 +18,10 @@ export const sendRegisterInfo = (param: object) => {
 
 //获取所有考试信息
 export const getAllExam = () => {
-  return request.get<examInfo[]>(`${commonUrl}/exam`);
+  return request.get<examInfo[]>(`${commonUrl}/exam/get`);
 };
 
 //获取考试的所有学生成绩
 export const getAllScore = (param: object) => {
-  return request.get<allScore>(`${commonUrl}/view`, param);
+  return request.get<allScore>(`${commonUrl}/score/oneexam`, param);
 };
