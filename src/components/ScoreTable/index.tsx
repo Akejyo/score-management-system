@@ -18,30 +18,30 @@ import {
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { StudentScore } from "@/common/interfaces/response";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppState } from "@/states";
 import { useQuery } from "react-query";
 import { getAllScore } from "@/apis/common";
 
 function createData(
   student_name: string,
+  all: number,
   language: number,
   math: number,
   english: number,
   physics: number,
   chemistry: number,
-  biology: number,
-  all: number
+  biology: number
 ): StudentScore {
   return {
     student_name,
+    all,
     language,
     math,
     english,
     physics,
     chemistry,
     biology,
-    all,
   };
 }
 
@@ -239,10 +239,11 @@ export default function ScoreTable() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const { state, dispatch } = useAppState();
   const [rows, setRows] = useState([createData("", 0, 0, 0, 0, 0, 0, 0)]);
+
   const { data, refetch } = useQuery(
     //从state中获取exam_id，请求获得所有学生成绩
     ["getScore"],
-    () => getAllScore([state.selectedExamId]),
+    () => getAllScore({ exam_id: state.selectedExamId }),
     {
       onSuccess: (data: any) => {
         const newRows = data.allScore.map((srow: StudentScore) =>
@@ -261,9 +262,6 @@ export default function ScoreTable() {
       },
     }
   );
-  useEffect(() => {
-    console.log(rows);
-  }, [rows]);
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof StudentScore

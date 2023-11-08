@@ -5,7 +5,6 @@ import {
   Card,
   CardActions,
   Container,
-  List,
   Snackbar,
   Stack,
   TextField,
@@ -58,12 +57,12 @@ const RegisterForm = () => {
       setOpenError1(false);
       setOpenError2(false);
     } else if (code == 1) {
-      //错误1
+      //错误1，用户名已被注册
       setOpenSuccess(false);
       setOpenError1(true);
       setOpenError2(false);
     } else {
-      //错误2
+      //错误2，学号已被注册
       setOpenSuccess(false);
       setOpenError1(false);
       setOpenError2(true);
