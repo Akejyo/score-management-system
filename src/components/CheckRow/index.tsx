@@ -14,7 +14,19 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-const CheckRow = () => {
+type CheckRowProps = {
+  student_name: string;
+  student_number: string;
+  req_time: string;
+  exam_name: string;
+};
+
+const CheckRow = ({
+  student_name,
+  student_number,
+  req_time,
+  exam_name,
+}: CheckRowProps) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -34,7 +46,7 @@ const CheckRow = () => {
               申请人：
             </Typography>
             <Typography variant="body1" gutterBottom>
-              张三
+              {student_name}
             </Typography>
           </Box>
           <Box sx={{ p: 1 }}>
@@ -42,7 +54,7 @@ const CheckRow = () => {
               学号：
             </Typography>
             <Typography variant="body1" gutterBottom>
-              2021000000000
+              {student_number}
             </Typography>
           </Box>
           <Box sx={{ p: 1 }}>
@@ -50,7 +62,7 @@ const CheckRow = () => {
               申请时间：
             </Typography>
             <Typography variant="body1" gutterBottom>
-              2023/11/8
+              {req_time}
             </Typography>
           </Box>
           <Box sx={{ p: 1 }}>
@@ -58,7 +70,7 @@ const CheckRow = () => {
               考试名：
             </Typography>
             <Typography variant="body1" gutterBottom>
-              第一次期中考试
+              {exam_name}
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 1 }}></Box>
@@ -78,7 +90,7 @@ const CheckRow = () => {
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  对于张三的第一次期中考试成绩，同意查分或驳回查分。
+                  对于{student_name}的{exam_name}成绩，同意查分或驳回查分。
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
