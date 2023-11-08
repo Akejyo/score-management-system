@@ -1,10 +1,7 @@
 import {
-  Exam,
-  LoginInfo,
-  StudentInfo,
-  StudentScore,
   allScore,
   examInfo,
+  CheckScoreInfo,
 } from "@/common/interfaces/response";
 import request from "@/utils/requests";
 
@@ -24,4 +21,8 @@ export const getAllExam = () => {
 //获取考试的所有学生成绩
 export const getAllScore = (param: object) => {
   return request.get<allScore>(`${commonUrl}/score/oneexam`, { params: param });
+};
+
+export const getCheckScore = () => {
+  return request.get<CheckScoreInfo[]>(`${commonUrl}/score/check/get`);
 };

@@ -46,3 +46,10 @@ export type Exam = {
   examInfo: examInfo;
   students: StudentScore[];
 };
+
+export type CheckScoreInfo = {
+  student_name: string;
+  student_number: string;
+  req_time: string;
+  exam_name: string;
+};
