@@ -8,18 +8,12 @@ import { useAppState } from "@/states";
 
 const CheckScore = () => {
   const [checkRows, setCheckRows] = useState<CheckScoreInfo[]>([]);
-  const { state, dispatch } = useAppState();
-
-  const { data } = useQuery(
-    "getCheckScore",
-    () => getCheckScore({ exam_id: state.selectedExamId }),
-    {
-      onSuccess: (data: any) => {
-        // console.log(data);
-        setCheckRows(data.checkRows);
-      },
-    }
-  );
+  const { data } = useQuery("getCheckScore", () => getCheckScore(), {
+    onSuccess: (data: any) => {
+      // console.log(data);
+      setCheckRows(data.checkRows);
+    },
+  });
   return (
     <Container sx={{ pt: 6 }}>
       <h1>受理查分</h1>
@@ -31,6 +25,7 @@ const CheckScore = () => {
               student_number={checkRow.student_number}
               req_time={checkRow.req_time}
               exam_name={checkRow.exam_name}
+              exam_id={checkRow.exam_id}
             ></CheckRow>
           );
         })}

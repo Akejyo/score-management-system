@@ -1,3 +1,4 @@
+import { handleCheckScore } from "@/apis/common";
 import { Maximize } from "@mui/icons-material";
 import {
   Alert,
@@ -13,12 +14,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { useMutation, useQuery } from "react-query";
 
 type CheckRowProps = {
   student_name: string;
   student_number: string;
   req_time: string;
   exam_name: string;
+  exam_id: number;
 };
 
 const CheckRow = ({
@@ -26,6 +29,7 @@ const CheckRow = ({
   student_number,
   req_time,
   exam_name,
+  exam_id,
 }: CheckRowProps) => {
   const [open, setOpen] = useState(false);
 
@@ -33,9 +37,33 @@ const CheckRow = ({
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (action: string) => {
     setOpen(false);
+    switch (action) {
+      case "agree":
+        handleAgree.mutate();
+        break;
+      case "reject":
+        handleReject.mutate();
+        break;
+      default:
+        break;
+    }
   };
+  const handleAgree = useMutation(() =>
+    handleCheckScore({
+      student_number: student_number,
+      exam_id: exam_id,
+      op: 1,
+    })
+  );
+  const handleReject = useMutation(() =>
+    handleCheckScore({
+      student_number: student_number,
+      exam_id: exam_id,
+      op: 0,
+    })
+  );
 
   return (
     <Box sx={{ p: 1 }}>
@@ -94,10 +122,10 @@ const CheckRow = ({
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleClose} autoFocus>
+                <Button onClick={() => handleClose("agree")} autoFocus>
                   同意查分
                 </Button>
-                <Button onClick={handleClose}>驳回查分</Button>
+                <Button onClick={() => handleClose("reject")}>驳回查分</Button>
               </DialogActions>
             </Dialog>
           </Box>

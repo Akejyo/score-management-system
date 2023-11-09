@@ -52,4 +52,5 @@ export type CheckScoreInfo = {
   student_number: string;
   req_time: string;
   exam_name: string;
+  exam_id: number;
 };

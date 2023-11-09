@@ -23,6 +23,12 @@ export const getAllScore = (param: object) => {
   return request.get<allScore>(`${commonUrl}/score/oneexam`, { params: param });
 };
 
-export const getCheckScore = (param: object) => {
+//获取所有考试的查分请求
+export const getCheckScore = () => {
   return request.get<CheckScoreInfo[]>(`${commonUrl}/check/get`);
+};
+
+//处理查分请求
+export const handleCheckScore = (param: object) => {
+  return request.get<object>(`${commonUrl}/check/dispose`, { params: param });
 };
