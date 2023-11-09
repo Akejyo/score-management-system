@@ -23,6 +23,6 @@ export const getAllScore = (param: object) => {
   return request.get<allScore>(`${commonUrl}/score/oneexam`, { params: param });
 };
 
-export const getCheckScore = () => {
-  return request.get<CheckScoreInfo[]>(`${commonUrl}/score/check/get`);
+export const getCheckScore = (param: object) => {
+  return request.get<CheckScoreInfo[]>(`${commonUrl}/check/get`);
 };

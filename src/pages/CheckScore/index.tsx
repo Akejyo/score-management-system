@@ -4,15 +4,22 @@ import { useQuery } from "react-query";
 import { getCheckScore } from "@/apis/common";
 import { CheckScoreInfo } from "@/common/interfaces/response";
 import { useState } from "react";
+import { useAppState } from "@/states";
 
 const CheckScore = () => {
   const [checkRows, setCheckRows] = useState<CheckScoreInfo[]>([]);
-  const { data } = useQuery("getCheckScore", () => getCheckScore(), {
-    onSuccess: (data: any) => {
-      console.log(data);
-      setCheckRows(data.checkRows);
-    },
-  });
+  const { state, dispatch } = useAppState();
+
+  const { data } = useQuery(
+    "getCheckScore",
+    () => getCheckScore({ exam_id: state.selectedExamId }),
+    {
+      onSuccess: (data: any) => {
+        // console.log(data);
+        setCheckRows(data.checkRows);
+      },
+    }
+  );
   return (
     <Container sx={{ pt: 6 }}>
       <h1>受理查分</h1>
