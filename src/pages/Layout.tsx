@@ -4,6 +4,7 @@ import TopBar from "@/components/TopBar";
 import Drawer from "@/components/Drawer";
 import { Outlet } from "react-router-dom";
 import { useAppState } from "@/states";
+import Aside from "@/components/Aside";
 
 const Layout = () => {
   const { state, dispatch } = useAppState();
@@ -24,9 +25,16 @@ const Layout = () => {
             },
           }}
         >
-          <Box id="detail" className="h-full w-full max-w-screen-xl flex-1 p-4">
-            <Outlet />
-          </Box>
+          <Stack direction={"row"}>
+            <Box
+              id="detail"
+              className="h-full w-full max-w-screen-xl flex-1 p-4"
+              sx={{ flexGrow: 1 }}
+            >
+              <Outlet />
+            </Box>
+            <Aside />
+          </Stack>
         </Box>
       </Box>
     </>

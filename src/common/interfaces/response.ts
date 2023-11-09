@@ -40,6 +40,7 @@ export type accountInfo = {
 export type examInfo = {
   exam_name: string;
   exam_id: number;
+  exam_time: string;
 };
 
 export type Exam = {
