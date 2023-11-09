@@ -1,8 +1,12 @@
 import { Menu } from "@mui/icons-material";
-import { AppBar, IconButton, Stack, Typography } from "@mui/material";
+import { AppBar, Badge, IconButton, Stack, Typography } from "@mui/material";
 import { useAppState } from "@/states";
-import Link from "../Link";
-
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import { useQuery } from "react-query";
+import { getCheckScore } from "@/apis/common";
+import { useState } from "react";
+import { CheckScoreInfo } from "@/common/interfaces/response";
+import Link from "@/components/Link";
 const TopBar = () => {
   const { state, dispatch } = useAppState();
 
@@ -11,6 +15,16 @@ const TopBar = () => {
       type: "set drawer",
     });
   };
+
+  const [checkRows, setCheckRows] = useState<CheckScoreInfo[]>([]);
+  const { data } = useQuery("getCheckScore", () => getCheckScore(), {
+    onSuccess: (data: any) => {
+      // console.log(data);
+      setCheckRows(data.checkRows);
+    },
+  });
+
+  const handleClick = () => {};
 
   return (
     <AppBar
@@ -34,6 +48,13 @@ const TopBar = () => {
             <Typography color={"white"}>成绩管理系统</Typography>
           </Link>
         </Stack>
+        <IconButton size="large" color="inherit" onClick={handleClick}>
+          <Link to="/check" color="inherit">
+            <Badge badgeContent={checkRows.length} color="error">
+              <NotificationsIcon />
+            </Badge>
+          </Link>
+        </IconButton>
       </Stack>
     </AppBar>
   );

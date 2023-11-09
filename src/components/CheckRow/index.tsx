@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 
 type CheckRowProps = {
   student_name: string;
