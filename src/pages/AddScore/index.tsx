@@ -1,10 +1,12 @@
-import { Box } from "@mui/material";
+import { Container, List } from "@mui/material";
+import { useQuery } from "react-query";
+import { useState } from "react";
 
 const AddScore = () => {
   return (
-    <Box>
-      <h1>Add Score</h1>
-    </Box>
+    <Container sx={{ pt: 6 }}>
+      <h1>添加学生成绩</h1>
+    </Container>
   );
 };
 export default AddScore;

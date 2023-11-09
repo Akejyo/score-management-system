@@ -4,7 +4,6 @@ import { useQuery } from "react-query";
 import { getCheckScore } from "@/apis/common";
 import { CheckScoreInfo } from "@/common/interfaces/response";
 import { useState } from "react";
-import { useAppState } from "@/states";
 
 const CheckScore = () => {
   const [checkRows, setCheckRows] = useState<CheckScoreInfo[]>([]);
