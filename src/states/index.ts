@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useReducer } from "react";
 
 import { State, StateAction, stateReducer } from "./reducers/stateReducer";
+export type Theme = "light" | "dark";
 
 // type AppContext = [state: State, dispatch: React.Dispatch<Action>]
 const initialState = {
   messages: {
     unread_count: 1,
   },
+  theme: (localStorage.getItem("theme") as Theme) || "light",
   drawer: false, //侧边栏是否打开
   users: {
     uid: 1,

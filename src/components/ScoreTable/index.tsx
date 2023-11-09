@@ -204,7 +204,7 @@ interface EnhancedTableToolbarProps {
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected } = props;
-
+  const { state, dispatch } = useAppState();
   return (
     <Toolbar
       sx={{
@@ -225,7 +225,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         id="tableTitle"
         component="div"
       >
-        成绩单
+        {state.selectedExam}·成绩单
       </Typography>
     </Toolbar>
   );

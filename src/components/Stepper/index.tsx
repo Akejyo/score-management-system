@@ -87,7 +87,7 @@ export default function VerticalLinearStepper() {
             <StepContent>
               <Typography>{step.description}</Typography>
               {index === 0 && (
-                <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                <FormControl sx={{ mt: 2, minWidth: 220 }} size="small">
                   <InputLabel id="demo-select-small-label">考试</InputLabel>
                   <Select
                     value={state.selectedExam}

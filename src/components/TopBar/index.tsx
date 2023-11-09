@@ -1,12 +1,24 @@
 import { Menu } from "@mui/icons-material";
-import { AppBar, Badge, IconButton, Stack, Typography } from "@mui/material";
-import { useAppState } from "@/states";
+import {
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { Theme, useAppState } from "@/states";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useQuery } from "react-query";
 import { getCheckScore } from "@/apis/common";
 import { useState } from "react";
 import { CheckScoreInfo } from "@/common/interfaces/response";
 import Link from "@/components/Link";
+import { deepOrange } from "@mui/material/colors";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+
 const TopBar = () => {
   const { state, dispatch } = useAppState();
 
@@ -24,7 +36,10 @@ const TopBar = () => {
     },
   });
 
-  const handleClick = () => {};
+  const logoImg = new URL(
+    `../../assets/logo.png`,
+    import.meta.url
+  ).href.toString();
 
   return (
     <AppBar
@@ -43,18 +58,45 @@ const TopBar = () => {
             <Menu />
           </IconButton>
         </Stack>
-        <Stack direction="row" justifyContent="center" className="basis-1/2">
-          <Link to="/">
-            <Typography color={"white"}>成绩管理系统</Typography>
-          </Link>
-        </Stack>
-        <IconButton size="large" color="inherit" onClick={handleClick}>
+        <Link to="/">
+          <img
+            src={logoImg}
+            alt="logo"
+            style={{
+              height: "50px",
+              width: "auto",
+              marginRight: "20px",
+            }}
+          />
+        </Link>
+        <Box sx={{ flexGrow: 1 }}></Box>
+        <IconButton
+          size="large"
+          color="inherit"
+          onClick={() => {
+            if (state.theme === "light") {
+              dispatch({
+                type: "set theme",
+                payload: "dark" as Theme,
+              });
+            } else {
+              dispatch({
+                type: "set theme",
+                payload: "light" as Theme,
+              });
+            }
+          }}
+        >
+          {state.theme === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+        </IconButton>
+        <IconButton size="large" color="inherit" sx={{ mr: 2 }}>
           <Link to="/check" color="inherit">
             <Badge badgeContent={checkRows.length} color="error">
               <NotificationsIcon />
             </Badge>
           </Link>
         </IconButton>
+        <Avatar sx={{ bgcolor: deepOrange[500], mr: 2 }}>李</Avatar>
       </Stack>
     </AppBar>
   );

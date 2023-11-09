@@ -1,4 +1,4 @@
-import { Drawer, useMediaQuery, useTheme } from "@mui/material";
+import { Divider, Drawer, useMediaQuery, useTheme } from "@mui/material";
 import NavLinks from "./NavLinks";
 import { useAppState } from "@/states";
 
@@ -18,11 +18,11 @@ const LeftDrawer = () => {
         sx={{
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
-            backgroundColor: "#eff2fc",
           },
         }}
       >
         <NavLinks />
+        <Divider />
       </Drawer>
     </>
   );

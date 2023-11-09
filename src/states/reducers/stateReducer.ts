@@ -4,6 +4,7 @@ export type State = {
   messages: { unread_count: number };
   drawer: boolean;
   users: { uid: number; name: string };
+  theme: string;
 };
 
 export interface StateAction {
@@ -38,6 +39,8 @@ export const stateReducer = (state: State, action: StateAction) => {
       return { ...state, selectedExam: action.payload };
     case "set exam id":
       return { ...state, selectedExamId: action.payload };
+    case "set theme":
+      return { ...state, theme: action.payload };
     default:
       return state;
   }

@@ -11,7 +11,9 @@ import {
   DialogTitle,
   Paper,
   Stack,
+  ThemeProvider,
   Typography,
+  createTheme,
 } from "@mui/material";
 import { useState } from "react";
 import { useMutation } from "react-query";
@@ -23,7 +25,11 @@ type CheckRowProps = {
   exam_name: string;
   exam_id: number;
 };
-
+const lightTheme = createTheme({
+  palette: {
+    mode: "light",
+  },
+});
 const CheckRow = ({
   student_name,
   student_number,
@@ -112,7 +118,11 @@ const CheckRow = ({
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
             >
-              <Alert severity="warning">该操作不可撤回！</Alert>
+              <ThemeProvider theme={lightTheme}>
+                <Alert variant="filled" severity="warning">
+                  该操作不可撤回！
+                </Alert>
+              </ThemeProvider>
               <DialogTitle id="alert-dialog-title">
                 {"请选择操作："}
               </DialogTitle>
