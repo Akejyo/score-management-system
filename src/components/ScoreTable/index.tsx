@@ -22,7 +22,7 @@ import { useState } from "react";
 import { useAppState } from "@/states";
 import { useQuery } from "react-query";
 import { getAllScore } from "@/apis/common";
-
+type PartialStudentScore = Omit<StudentScore, "student_number">;
 function createData(
   student_name: string,
   all: number,
@@ -32,7 +32,7 @@ function createData(
   physics: number,
   chemistry: number,
   biology: number
-): StudentScore {
+): PartialStudentScore {
   return {
     student_name,
     all,
@@ -86,7 +86,7 @@ function stableSort<T>(
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof StudentScore;
+  id: keyof PartialStudentScore;
   label: string;
   numeric: boolean;
 }
@@ -146,7 +146,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof StudentScore
+    property: keyof PartialStudentScore
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -164,7 +164,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     onRequestSort,
   } = props;
   const createSortHandler =
-    (property: keyof StudentScore) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof PartialStudentScore) =>
+    (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
@@ -232,7 +233,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 }
 export default function ScoreTable() {
   const [order, setOrder] = useState<Order>("desc");
-  const [orderBy, setOrderBy] = useState<keyof StudentScore>("all");
+  const [orderBy, setOrderBy] = useState<keyof PartialStudentScore>("all");
   const [selected, setSelected] = useState<readonly number[]>([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
@@ -246,7 +247,7 @@ export default function ScoreTable() {
     () => getAllScore({ exam_id: state.selectedExamId }),
     {
       onSuccess: (data: any) => {
-        const newRows = data.allScore.map((srow: StudentScore) =>
+        const newRows = data.allScore.map((srow: PartialStudentScore) =>
           createData(
             srow.student_name,
             srow.all,
@@ -267,7 +268,7 @@ export default function ScoreTable() {
   }, [state.selectedExamId]);
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof StudentScore
+    property: keyof PartialStudentScore
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
