@@ -1,8 +1,6 @@
 import {
   Box,
-  Button,
   Card,
-  CardActions,
   CardContent,
   Divider,
   List,
@@ -17,8 +15,7 @@ import { examInfo } from "@/common/interfaces/response";
 import { useAppState } from "@/states";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 const Aside = () => {
-  const [latestExams, setLatestExams] = useState<examInfo[]>([]); //exam_name
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [latestExams, setLatestExams] = useState<examInfo[]>([]);
   const { state, dispatch } = useAppState();
 
   const { data, refetch } = useQuery(["getAllExam"], () => getAllExam(), {
@@ -50,7 +47,7 @@ const Aside = () => {
 
         <Divider />
         <List>
-          {latestExams.map((exam, index) => (
+          {latestExams.slice(0, 5).map((exam, index) => (
             <Link to="/view" underline="none" color="inherit">
               <ListItemButton
                 onClick={(event) => handleListItemClick(event, index)}

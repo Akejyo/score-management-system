@@ -5,7 +5,7 @@ export type StudentInfo = {
 
 export type StudentScore = {
   student_name: string;
-  student_number:string;
+  student_number: string;
   language: number;
   math: number;
   english: number;

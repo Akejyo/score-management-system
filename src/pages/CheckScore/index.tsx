@@ -7,12 +7,15 @@ import { useState } from "react";
 
 const CheckScore = () => {
   const [checkRows, setCheckRows] = useState<CheckScoreInfo[]>([]);
-  const { data } = useQuery("getCheckScore", () => getCheckScore(), {
+  const { data, refetch } = useQuery("getCheckScore", () => getCheckScore(), {
     onSuccess: (data: any) => {
       // console.log(data);
       setCheckRows(data.checkRows);
     },
   });
+  const handleClick = () => {
+    refetch();
+  };
   return (
     <Container sx={{ pt: 6 }}>
       <h1>受理查分</h1>
@@ -25,6 +28,7 @@ const CheckScore = () => {
               req_time={checkRow.req_time}
               exam_name={checkRow.exam_name}
               exam_id={checkRow.exam_id}
+              onButtonClick={handleClick}
             ></CheckRow>
           );
         })}

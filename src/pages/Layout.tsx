@@ -1,5 +1,4 @@
-import { KeyboardArrowUp } from "@mui/icons-material";
-import { Box, Fab, Stack, Toolbar, useMediaQuery } from "@mui/material";
+import { Box, Stack, useMediaQuery } from "@mui/material";
 import TopBar from "@/components/TopBar";
 import Drawer from "@/components/Drawer";
 import { Outlet } from "react-router-dom";
