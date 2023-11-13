@@ -5,6 +5,7 @@ export type StudentInfo = {
 
 export type StudentScore = {
   student_name: string;
+  student_number:string;
   language: number;
   math: number;
   english: number;
@@ -54,4 +55,15 @@ export type CheckScoreInfo = {
   req_time: string;
   exam_name: string;
   exam_id: number;
+};
+
+export type ModifyScoreInfo = {
+  student_name: string;
+  student_number: string;
+  language: number;
+  math: number;
+  english: number;
+  physics: number;
+  chemistry: number;
+  biology: number;
 };
