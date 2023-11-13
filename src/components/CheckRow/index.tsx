@@ -24,6 +24,7 @@ type CheckRowProps = {
   req_time: string;
   exam_name: string;
   exam_id: number;
+  onButtonClick: () => void;
 };
 const lightTheme = createTheme({
   palette: {
@@ -36,6 +37,7 @@ const CheckRow = ({
   req_time,
   exam_name,
   exam_id,
+  onButtonClick,
 }: CheckRowProps) => {
   const [open, setOpen] = useState(false);
 
@@ -132,10 +134,23 @@ const CheckRow = ({
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={() => handleClose("agree")} autoFocus>
+                <Button
+                  onClick={() => {
+                    handleClose("agree");
+                    onButtonClick();
+                  }}
+                  autoFocus
+                >
                   同意查分
                 </Button>
-                <Button onClick={() => handleClose("reject")}>驳回查分</Button>
+                <Button
+                  onClick={() => {
+                    handleClose("reject");
+                    onButtonClick();
+                  }}
+                >
+                  驳回查分
+                </Button>
               </DialogActions>
             </Dialog>
           </Box>
