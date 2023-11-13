@@ -5,16 +5,17 @@ import { useAppState } from "@/states";
 import { Container, List } from "@mui/material";
 import { useState } from "react";
 import { useQuery } from "react-query";
-const { state, dispatch } = useAppState();
+
 const ModifyScore = () => {
+  const { state, dispatch } = useAppState();
   const [changeScores, setChangeScores] = useState<StudentScore[]>([]);
   const { data } = useQuery(
-    "getchangeScores",
+    ["allScore"],
     () => getAllScore({ exam_id: state.selectedExamId }),
     {
       onSuccess: (data: any) => {
         console.log(data);
-        setChangeScores(data.changeScores);
+        setChangeScores(data.allScore);
       },
     }
   );
