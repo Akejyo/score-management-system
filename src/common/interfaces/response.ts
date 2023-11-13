@@ -55,6 +55,7 @@ export type CheckScoreInfo = {
   req_time: string;
   exam_name: string;
   exam_id: number;
+  state: number;
 };
 
 export type ModifyScoreInfo = {

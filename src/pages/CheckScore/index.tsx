@@ -28,6 +28,7 @@ const CheckScore = () => {
               req_time={checkRow.req_time}
               exam_name={checkRow.exam_name}
               exam_id={checkRow.exam_id}
+              state={checkRow.state}
               onButtonClick={handleClick}
             ></CheckRow>
           );
