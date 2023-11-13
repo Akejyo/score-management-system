@@ -1,9 +1,10 @@
 import { handleCheckScore } from "@/apis/common";
-import { Maximize } from "@mui/icons-material";
+import { CheckBox, Maximize } from "@mui/icons-material";
 import {
   Alert,
   Box,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
@@ -17,13 +18,18 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useMutation } from "react-query";
-
+import LoopIconBorder from "@mui/icons-material/Loop";
+import LoopIcon from "@mui/icons-material/Loop";
+import SyncProblemIcon from "@mui/icons-material/SyncProblem";
+import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
+import { green, pink } from "@mui/material/colors";
 type CheckRowProps = {
   student_name: string;
   student_number: string;
   req_time: string;
   exam_name: string;
   exam_id: number;
+  state: number;
   onButtonClick: () => void;
 };
 const lightTheme = createTheme({
@@ -37,6 +43,7 @@ const CheckRow = ({
   req_time,
   exam_name,
   exam_id,
+  state,
   onButtonClick,
 }: CheckRowProps) => {
   const [open, setOpen] = useState(false);
@@ -54,6 +61,8 @@ const CheckRow = ({
       case "reject":
         handleReject.mutate();
         break;
+      case "finish":
+        handleFinsih.mutate();
       default:
         break;
     }
@@ -72,7 +81,14 @@ const CheckRow = ({
       op: 0,
     })
   );
-
+  const handleFinsih = useMutation(() =>
+    handleCheckScore({
+      student_number: student_number,
+      exam_id: exam_id,
+      op: 2,
+    })
+  );
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
   return (
     <Box sx={{ p: 1 }}>
       <Paper elevation={2}>
@@ -110,6 +126,28 @@ const CheckRow = ({
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 1 }}></Box>
+          {state === 0 ? (
+            <Checkbox
+              disabled
+              icon={<SyncProblemIcon />}
+              sx={{
+                "&.Mui-disabled": {
+                  color: pink[500],
+                },
+              }}
+            />
+          ) : (
+            <Checkbox
+              disabled
+              icon={<PublishedWithChangesIcon />}
+              sx={{
+                "&.Mui-disabled": {
+                  color: green["A700"],
+                },
+              }}
+            />
+          )}
+
           <Box sx={{ p: 1, pt: 2 }}>
             <Button variant="outlined" onClick={handleClickOpen}>
               选择操作
@@ -130,15 +168,33 @@ const CheckRow = ({
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  对于{student_name}的{exam_name}成绩，同意查分或驳回查分。
+                  {state === 0 ? (
+                    <Typography>
+                      对于{student_name}的{exam_name}成绩，同意查分或驳回查分。
+                    </Typography>
+                  ) : (
+                    <Typography sx={{ mr: 30 }}>
+                      结束{student_name}的查分
+                    </Typography>
+                  )}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button
                   onClick={() => {
+                    handleClose("finish");
+                    onButtonClick();
+                  }}
+                  disabled={state === 0}
+                >
+                  查分结束
+                </Button>
+                <Button
+                  onClick={() => {
                     handleClose("agree");
                     onButtonClick();
                   }}
+                  disabled={state === 1}
                   autoFocus
                 >
                   同意查分
@@ -148,6 +204,7 @@ const CheckRow = ({
                     handleClose("reject");
                     onButtonClick();
                   }}
+                  disabled={state === 1}
                 >
                   驳回查分
                 </Button>
