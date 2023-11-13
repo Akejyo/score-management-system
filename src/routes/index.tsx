@@ -1,4 +1,8 @@
-import { RouteObject, createBrowserRouter } from "react-router-dom";
+import {
+  RouteObject,
+  createBrowserRouter,
+  createHashRouter,
+} from "react-router-dom";
 
 import Home from "@/pages/Home";
 import Layout from "@/pages/Layout";
@@ -11,7 +15,7 @@ import Register from "@/pages/Register";
 
 type CustomRouteConfig = RouteObject & { name?: string };
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Layout />,

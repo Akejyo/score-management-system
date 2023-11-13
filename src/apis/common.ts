@@ -2,6 +2,7 @@ import {
   allScore,
   examInfo,
   CheckScoreInfo,
+  ModifyScoreInfo,
 } from "@/common/interfaces/response";
 import request from "@/utils/requests";
 
@@ -32,3 +33,4 @@ export const getCheckScore = () => {
 export const handleCheckScore = (param: object) => {
   return request.get<object>(`${commonUrl}/check/dispose`, { params: param });
 };
+

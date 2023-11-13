@@ -57,3 +57,14 @@ export type CheckScoreInfo = {
   exam_id: number;
   state: number;
 };
+
+export type ModifyScoreInfo = {
+  student_name: string;
+  student_number: string;
+  language: number;
+  math: number;
+  english: number;
+  physics: number;
+  chemistry: number;
+  biology: number;
+};
