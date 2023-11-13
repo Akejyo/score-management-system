@@ -262,6 +262,9 @@ export default function ScoreTable() {
       },
     }
   );
+  React.useEffect(() => {
+    refetch();
+  }, [state.selectedExamId]);
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof StudentScore

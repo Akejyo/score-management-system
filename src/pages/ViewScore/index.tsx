@@ -1,5 +1,5 @@
 import ScoreTable from "@/components/ScoreTable";
-import { Box, Container } from "@mui/material";
+import { Container } from "@mui/material";
 
 const ViewScore = () => {
   return (

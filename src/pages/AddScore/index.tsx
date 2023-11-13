@@ -1,6 +1,4 @@
-import { Container, List } from "@mui/material";
-import { useQuery } from "react-query";
-import { useState } from "react";
+import { Container } from "@mui/material";
 
 const AddScore = () => {
   return (
