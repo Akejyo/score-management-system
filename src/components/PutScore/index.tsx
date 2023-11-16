@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Global } from "@emotion/react";
+import { handleAddScore } from "@/apis/common";
 import {
   styled,
   CssBaseline,
@@ -11,6 +12,8 @@ import {
   Stack,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useAppState } from "@/states";
+import { useState } from "react";
 const drawerBleeding = 56;
 
 interface Props {
@@ -45,8 +48,16 @@ const Puller = styled(Box)(({ theme }) => ({
 
 export default function SwipeableEdgeDrawer(props: Props) {
   const { window } = props;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [student_number, setStudent_number] = useState("");
+  const [mathScore, setMathScore] = useState<number | "">("");
+  const [languageScore, setLanguageScore] = useState<number | "">("");
+  const [englishScore, setEnglishScore] = useState<number | "">("");
+  const [physicsScore, setPhysicsScore] = useState<number | "">("");
+  const [chemistryScore, setChemistryScore] = useState<number | "">("");
+  const [biologyScore, setBiologyScore] = useState<number | "">("");
 
+  const { state, dispatch } = useAppState();
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -62,7 +73,16 @@ export default function SwipeableEdgeDrawer(props: Props) {
           <TextField label="学生姓名" variant="standard" />
         </Box>
         <Box sx={{ p: 2 }}>
-          <TextField label="学生学号" variant="standard" />
+          <TextField
+            label="学生学号"
+            variant="standard"
+            value={student_number}
+            onChange={(event) =>
+              setStudent_number(
+                event.target.value ? event.target.value.toString : ""
+              )
+            }
+          />
         </Box>
         <CssBaseline />
         <Global
@@ -116,27 +136,97 @@ export default function SwipeableEdgeDrawer(props: Props) {
           >
             <Stack direction="row" spacing={2} sx={{ p: 1, display: "flex" }}>
               <Box sx={{ p: 2 }}>
-                <TextField label="数学成绩" variant="standard" />
+                <TextField
+                  label="数学成绩"
+                  variant="standard"
+                  value={mathScore}
+                  onChange={(event) =>
+                    setMathScore(
+                      event.target.value ? parseFloat(event.target.value) : ""
+                    )
+                  }
+                />
               </Box>
               <Box sx={{ p: 2 }}>
-                <TextField label="语文成绩" variant="standard" />
+                <TextField
+                  label="语文成绩"
+                  variant="standard"
+                  value={languageScore}
+                  onChange={(event) =>
+                    setLanguageScore(
+                      event.target.value ? parseFloat(event.target.value) : ""
+                    )
+                  }
+                />
               </Box>
               <Box sx={{ p: 2 }}>
-                <TextField label="英语成绩" variant="standard" />
+                <TextField
+                  label="英语成绩"
+                  variant="standard"
+                  value={englishScore}
+                  onChange={(event) =>
+                    setEnglishScore(
+                      event.target.value ? parseFloat(event.target.value) : ""
+                    )
+                  }
+                />
               </Box>
             </Stack>
             <Stack direction="row" spacing={2} sx={{ p: 1, display: "flex" }}>
               <Box sx={{ p: 2 }}>
-                <TextField label="物理成绩" variant="standard" />
+                <TextField
+                  label="物理成绩"
+                  variant="standard"
+                  value={physicsScore}
+                  onChange={(event) =>
+                    setPhysicsScore(
+                      event.target.value ? parseFloat(event.target.value) : ""
+                    )
+                  }
+                />
               </Box>
               <Box sx={{ p: 2 }}>
-                <TextField label="化学成绩" variant="standard" />
+                <TextField
+                  label="化学成绩"
+                  variant="standard"
+                  value={chemistryScore}
+                  onChange={(event) =>
+                    setChemistryScore(
+                      event.target.value ? parseFloat(event.target.value) : ""
+                    )
+                  }
+                />
               </Box>
               <Box sx={{ p: 2 }}>
-                <TextField label="生物成绩" variant="standard" />
+                <TextField
+                  label="生物成绩"
+                  variant="standard"
+                  value={biologyScore}
+                  onChange={(event) =>
+                    setBiologyScore(
+                      event.target.value ? parseFloat(event.target.value) : ""
+                    )
+                  }
+                />
               </Box>
               <Box sx={{ pl: 5, pt: 4 }}>
-                <Button variant="contained">确认</Button>
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    handleAddScore({
+                      exam_id: state.selectedExamId,
+                      student_number: student_number,
+                      language: languageScore,
+                      math: mathScore,
+                      english: englishScore,
+                      physics: physicsScore,
+                      chemistry: chemistryScore,
+                      biology: biologyScore,
+                    })
+                  }
+                >
+                  确认
+                </Button>
               </Box>
             </Stack>
           </StyledBox>

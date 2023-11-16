@@ -129,7 +129,9 @@ const ChangeScore = ({
               variant="standard"
               value={modifyScore}
               onChange={(event) =>
-                setModifyScore(parseFloat(event.target.value))
+                setModifyScore(
+                  event.target.value ? parseFloat(event.target.value) : 0
+                )
               }
             />
           </Box>

@@ -39,3 +39,7 @@ export const handleModifyScore = (param: object) => {
     params: param,
   });
 };
+
+export const handleAddScore = (param: object) => {
+  return request.get<object>(`${commonUrl}/score/add`, { params: param });
+};
