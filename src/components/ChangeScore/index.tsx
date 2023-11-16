@@ -38,6 +38,7 @@ const ChangeScore = ({
   biology,
 }: ChangeScoreProps) => {
   const [subjectScore, setSubjetScore] = useState(0);
+  const [modifyScore, setModifyScore] = useState(0);
   const { state, dispatch } = useAppState();
   const [subject, setSubject] = React.useState("");
 
@@ -126,9 +127,9 @@ const ChangeScore = ({
             <TextField
               label=""
               variant="standard"
-              value={subjectScore}
+              value={modifyScore}
               onChange={(event) =>
-                setSubjetScore(parseFloat(event.target.value))
+                setModifyScore(parseFloat(event.target.value))
               }
             />
           </Box>
