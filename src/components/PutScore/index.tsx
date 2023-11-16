@@ -78,9 +78,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
             variant="standard"
             value={student_number}
             onChange={(event) =>
-              setStudent_number(
-                event.target.value ? event.target.value.toString : ""
-              )
+              setStudent_number(event.target.value ? event.target.value : "")
             }
           />
         </Box>
