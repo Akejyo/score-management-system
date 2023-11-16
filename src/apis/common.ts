@@ -34,3 +34,8 @@ export const handleCheckScore = (param: object) => {
   return request.get<object>(`${commonUrl}/check/dispose`, { params: param });
 };
 
+export const handleModifyScore = (param: object) => {
+  return request.get<object>(`${commonUrl}/score/modifyscore`, {
+    params: param,
+  });
+};

@@ -12,8 +12,9 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-
+import { handleModifyScore } from "@/apis/common";
 import { useState } from "react";
+import { useAppState } from "@/states";
 
 type ChangeScoreProps = {
   student_name: string;
@@ -36,16 +37,8 @@ const ChangeScore = ({
   chemistry,
   biology,
 }: ChangeScoreProps) => {
-  const [open, setOpen] = useState(false);
   const [subjectScore, setSubjetScore] = useState(0);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+  const { state, dispatch } = useAppState();
   const [subject, setSubject] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -93,7 +86,7 @@ const ChangeScore = ({
               {student_number}
             </Typography>
           </Box>
-          <Box sx={{ p: 1, width: 200 }}>
+          <Box sx={{ pb: 1, width: 200 }}>
             <FormControl variant="standard" sx={{ m: 1, width: 150 }}>
               <InputLabel id="demo-simple-select-standard-label">
                 学科
@@ -123,16 +116,30 @@ const ChangeScore = ({
             </Typography>
           </Box>
           <Box sx={{ width: 150 }}>
-            <Typography variant="caption" display="block" gutterBottom>
+            <Typography
+              variant="caption"
+              display="block"
+              sx={{ mt: 1, mb: -0.5 }}
+            >
               修改成绩为：
             </Typography>
-            <Typography variant="body1" gutterBottom>
-              <TextField label="" variant="standard" />
-            </Typography>
+            <TextField label="" variant="standard" />
           </Box>
           <Box sx={{ pl: 3, width: 150 }}>
             <Box sx={{ pt: 3 }}>
-              <Button variant="contained">确认</Button>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  handleModifyScore({
+                    exam_id: state.selectedExamId,
+                    student_number: student_number,
+                    subject: subject,
+                    score: subjectScore,
+                  })
+                }
+              >
+                确认
+              </Button>
             </Box>
           </Box>
         </Stack>
