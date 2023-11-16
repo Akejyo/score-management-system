@@ -123,7 +123,14 @@ const ChangeScore = ({
             >
               修改成绩为：
             </Typography>
-            <TextField label="" variant="standard" />
+            <TextField
+              label=""
+              variant="standard"
+              value={subjectScore}
+              onChange={(event) =>
+                setSubjetScore(parseFloat(event.target.value))
+              }
+            />
           </Box>
           <Box sx={{ pl: 3, width: 150 }}>
             <Box sx={{ pt: 3 }}>
