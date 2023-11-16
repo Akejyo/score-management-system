@@ -142,7 +142,7 @@ const ChangeScore = ({
                     exam_id: state.selectedExamId,
                     student_number: student_number,
                     subject: subject,
-                    score: subjectScore,
+                    score: modifyScore,
                   })
                 }
               >
